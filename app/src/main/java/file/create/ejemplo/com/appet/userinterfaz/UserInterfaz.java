@@ -173,30 +173,26 @@ public class UserInterfaz extends AppCompatActivity {
                        // int ValNumero = Integer.parseInt(dataInPrint);
 
 
-
-                        if(dataInPrint.equals("SEP_OK")){
+                        if(dataInPrint.equals(ETSeparacion.getText().toString())){
 
 
 
                             BenviarSeparacion.setBackgroundColor(Color.GREEN);
                             BenviarSeparacion.setText("OK");
-                        }else if(dataInPrint.equals("NUMEL_OK")){
+                           TVresistividades.setText(dataInPrint);
+
+                         }
+                        if(dataInPrint.equals(ETnumele.getText().toString())){
 
 
                             BenviarNumele.setBackgroundColor(Color.GREEN);
                             BenviarNumele.setText("OK");
+                            TVresistividades.setText(dataInPrint);
 
 
 
                         }
-                        /*
-                        else if(ValNumero % 2 == 0){
 
-                            TVresistividades.setText(" " + ValNumero);//<-<- PARTE A MODIFICAR >->->
-
-
-                        }
-                        */
 
                         DataStringIN.delete(0, DataStringIN.length());
                     }
@@ -217,10 +213,14 @@ public class UserInterfaz extends AppCompatActivity {
             {
 
 
-                String datoEnvioSeparacion  = opcion1 + ETSeparacion.getText().toString();
+                String datoEnvioSeparacion  =   ETSeparacion.getText().toString()+"#";
 
-                MyConexionBT.write(datoEnvioSeparacion);
-                // MyConexionBT.write(NUMEROELEC);
+                if(!datoEnvioSeparacion.equals("#")){
+                    MyConexionBT.write(datoEnvioSeparacion);
+                }
+
+
+                   // TVresistividades.setText(datoEnvioSeparacion);
 
 
             }
@@ -229,24 +229,18 @@ public class UserInterfaz extends AppCompatActivity {
         BenviarNumele.setOnClickListener(new View.OnClickListener() {// APAGAR LED
             public void onClick(View v) {
 
-                String datoEnvioNumele  =  opcion2 + ETnumele.getText().toString();
+                String datoEnvioNumele  =   ETnumele.getText().toString()+"$";
 
-                MyConexionBT.write(datoEnvioNumele);
+                if(!datoEnvioNumele.equals("$")){
+                    MyConexionBT.write(datoEnvioNumele);
+                }
+
+              //  TVresistividades.setText(datoEnvioNumele);
+
             }
         });
 
 
-        BiniciarEnvioRecepcion.setOnClickListener(new View.OnClickListener() {
-
-
-           public void onClick(View v)
-
-            {
-                String datoEnvioRes  =  opcion3;
-
-                MyConexionBT.write(datoEnvioRes);
-            }
-      });
 
 
 
