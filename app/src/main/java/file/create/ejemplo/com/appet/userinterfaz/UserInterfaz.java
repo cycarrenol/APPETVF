@@ -35,16 +35,28 @@ import file.create.ejemplo.com.appet.MainActivity;
 public class UserInterfaz extends AppCompatActivity {
 
 
-    public String StringAleatorio;
-    public int i = 0;
-    Button createq, BConfig, Begin;
-    TextView textTXT;
-    Button EnviarNumele, EnviarSeparacion,IdDesconectar;
-    TextView IdBufferIn, IdBufferIn2, TEXTTEST;
+    //public String StringAleatorio;// por ahora inactivo
+
+    String dato = "";
+    String opcion1 = "1";//Separacion
+    String opcion2 = "2";//numero de electrodos
+    String opcion3 = "3";//Resistividad
+
+
+    Button BatrasDispositivos;
+    Button BguardarTXT;
+    Button BiniciarEnvioRecepcion;
+
+
+    Button BenviarNumele;
+    Button BenviarSeparacion;
+    Button BidDesconectar;
+
+
     EditText ETSeparacion;
-    EditText NUMELE;
+    EditText ETnumele;
 
-
+    TextView TVresistividades;
     //-------------------------------------------
     Handler bluetoothIn;
     final int handlerState = 0;
@@ -64,32 +76,39 @@ public class UserInterfaz extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_interfaz);
-        //2)
-        //Enlaza los controles con sus respectivas vistas
-        EnviarNumele = (Button) findViewById(file.create.ejemplo.com.appet.R.id.EnviarNumele);
-        EnviarSeparacion = (Button) findViewById(file.create.ejemplo.com.appet.R.id.EnviarSeparacion);
-        IdDesconectar = (Button) findViewById(file.create.ejemplo.com.appet.R.id.IdDesconectar);
-        Begin = (Button) findViewById(R.id.Begin);
-        //IdBufferIn = (TextView) findViewById(file.create.ejemplo.com.appet.R.id.IdBufferIn);
-        //IdBufferIn2 = (TextView) findViewById(file.create.ejemplo.com.appet.R.id.IdBufferIn2);
-        textTXT = (TextView) findViewById(R.id.textoTXT);
-
-        // TEXTTEST = (TextView) findViewById(file.create.ejemplo.com.controlbt.R.id.TEXTTEST);
 
 
-        createq = (Button) findViewById(R.id.createq);// asigno a la variable create (de tipo botton) al elemento Button del layout
+        BatrasDispositivos = findViewById(R.id.BatrasDispositivos);
 
-        textTXT = (TextView) findViewById(R.id.textoTXT);// /Contenido del  archivo/ tenga presente que lo que está después del  R.id es el id del elemento del layout
-        // textRuta = (TextView) findViewById(R.id.textoRUTA);// muestra la ruta de almacenamiento del archivo
+        BatrasDispositivos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openActivity2();
+            }
+        });
 
 
-        ETSeparacion =   findViewById(file.create.ejemplo.com.appet.R.id.ETSeparacion);
-        NUMELE =   findViewById(file.create.ejemplo.com.appet.R.id.NUMELE);
+        //-----------------------------------------------------------------------------------------------
+
+        BenviarNumele =          (Button) findViewById(file.create.ejemplo.com.appet.R.id.BenviarNumele);
+        BenviarSeparacion =      (Button) findViewById(file.create.ejemplo.com.appet.R.id.BenviarSeparacion);
+        BidDesconectar =         (Button) findViewById(file.create.ejemplo.com.appet.R.id.BidDesconectar);
+        BiniciarEnvioRecepcion = (Button) findViewById(R.id.BiniciarEnvioRecepcion);
+        BguardarTXT =            (Button) findViewById(R.id.BguardarTXT);// asigno a la variable create (de tipo botton) al elemento Button del layout
+        ETSeparacion =           (EditText) findViewById(file.create.ejemplo.com.appet.R.id.ETSeparacion);
+        ETnumele =               (EditText) findViewById(file.create.ejemplo.com.appet.R.id.ETnumele);
+        TVresistividades =       (TextView) findViewById(R.id.TVresistividades);
 
 
-        ///MET CREAR TXT
 
-        createq.setOnClickListener(new View.OnClickListener() {// METODO PARA CREAR EL ARCHIVO EN UNA CARPETA
+        //-----------------------------------------------------------------------------------------------
+
+
+
+
+        ///----------------------------------------------------------------Metodo para crear el TXT
+
+        BguardarTXT.setOnClickListener(new View.OnClickListener() {// METODO PARA CREAR EL ARCHIVO EN UNA CARPETA
             @Override
             public void onClick(View view) {
 
@@ -100,13 +119,12 @@ public class UserInterfaz extends AppCompatActivity {
 
                 //String archivo ="Miarchivo.txt";
 
-                createq.setBackgroundColor(Color.YELLOW);
-                createq.setTextColor(Color.BLACK);
+                BguardarTXT.setBackgroundColor(Color.YELLOW);
+                BguardarTXT.setTextColor(Color.BLACK);
 
                 FileOutputStream fileOutputStream = null;
 
-                File myDirectoty1 =  new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"RESISTIVIDADES");
-
+                File myDirectoty1 =  new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),"RESISTIVIDADES");
 
                 myDirectoty1.mkdir();
                 File file = new File(myDirectoty1, archivo);
@@ -126,8 +144,8 @@ public class UserInterfaz extends AppCompatActivity {
                 try {
 
                     FileOutputStream os = fileOutputStream = new FileOutputStream(file);
-                    String data ="HOLA MUNDO";
-                    textTXT.setText(data);
+                    String data ="Texto inicial por defecto";
+                    TVresistividades.setText(data);
                     os.write(data.getBytes());
                     os.close();
                 } catch ( Exception e) {// Con exception  se maneja cualquier excepción
@@ -136,7 +154,7 @@ public class UserInterfaz extends AppCompatActivity {
             }
         });
 
-        /// MET CREAR TXT
+        //------------------------------------------------------------Metodo para crear TXT
 
         bluetoothIn = new Handler() {
             public void handleMessage(android.os.Message msg) {
@@ -146,27 +164,39 @@ public class UserInterfaz extends AppCompatActivity {
 
                     int endOfLineIndex = DataStringIN.indexOf("#");
 
+
                     if (endOfLineIndex > 0) {
                         String dataInPrint = DataStringIN.substring(0, endOfLineIndex);
 
-                        //TEXTTEST.setText(dataInPrint);
+
+
+                       // int ValNumero = Integer.parseInt(dataInPrint);
+
 
 
                         if(dataInPrint.equals("SEP_OK")){
 
 
-                           // IdBufferIn.setText(" " + dataInPrint);//<-<- PARTE A MODIFICAR >->->
-                            EnviarSeparacion.setBackgroundColor(Color.GREEN);
-                            EnviarSeparacion.setText("OK");
+
+                            BenviarSeparacion.setBackgroundColor(Color.GREEN);
+                            BenviarSeparacion.setText("OK");
                         }else if(dataInPrint.equals("NUMEL_OK")){
 
-                            //IdBufferIn2.setText(" " + dataInPrint);//<-<- PARTE A MODIFICAR >->->
-                            EnviarNumele.setBackgroundColor(Color.GREEN);
-                            EnviarNumele.setText("OK");
-                        }else if(dataInPrint.length() == 1){
 
-                            textTXT.setText(" " + dataInPrint);//<-<- PARTE A MODIFICAR >->->
+                            BenviarNumele.setBackgroundColor(Color.GREEN);
+                            BenviarNumele.setText("OK");
+
+
+
                         }
+                        /*
+                        else if(ValNumero % 2 == 0){
+
+                            TVresistividades.setText(" " + ValNumero);//<-<- PARTE A MODIFICAR >->->
+
+
+                        }
+                        */
 
                         DataStringIN.delete(0, DataStringIN.length());
                     }
@@ -180,63 +210,48 @@ public class UserInterfaz extends AppCompatActivity {
         // Configuracion onClick listeners para los botones
         // para indicar que se realizara cuando se detecte
         // el evento de Click
-        EnviarSeparacion.setOnClickListener(new View.OnClickListener() {// ENCENDER LED
+
+        BenviarSeparacion.setOnClickListener(new View.OnClickListener() {// ENCENDER LED
             public void onClick(View v)
 
             {
 
 
-                String SEPA  =  ETSeparacion.getText().toString()+"#";
+                String datoEnvioSeparacion  = opcion1 + ETSeparacion.getText().toString();
 
-                MyConexionBT.write(SEPA);
+                MyConexionBT.write(datoEnvioSeparacion);
                 // MyConexionBT.write(NUMEROELEC);
 
 
             }
         });
 
-        EnviarNumele.setOnClickListener(new View.OnClickListener() {// APAGAR LED
+        BenviarNumele.setOnClickListener(new View.OnClickListener() {// APAGAR LED
             public void onClick(View v) {
 
-                String NUMEROELEC  =  NUMELE.getText().toString() +"$";
+                String datoEnvioNumele  =  opcion2 + ETnumele.getText().toString();
 
-                MyConexionBT.write(NUMEROELEC);
+                MyConexionBT.write(datoEnvioNumele);
             }
         });
 
 
-        Begin.setOnClickListener(new View.OnClickListener() {// ENCENDER LED
+        BiniciarEnvioRecepcion.setOnClickListener(new View.OnClickListener() {
 
-            Random r = new Random();
 
-            public void onClick(View v)
+           public void onClick(View v)
 
             {
+                String datoEnvioRes  =  opcion3;
 
-
-
-                for( i = 0; i < 60; i++){
-
-                    int randomNumber = 10 + r.nextInt(89);
-
-                    StringAleatorio = String.valueOf(randomNumber);
-
-
-                    StringAleatorio  =  ETSeparacion.getText().toString()+"*";
-
-                    MyConexionBT.write(StringAleatorio);
-
-
-
-                }
-
+                MyConexionBT.write(datoEnvioRes);
             }
-        });
+      });
 
 
 
 
-        IdDesconectar.setOnClickListener(new View.OnClickListener() {
+        BidDesconectar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (btSocket!=null)
                 {
@@ -363,4 +378,13 @@ public class UserInterfaz extends AppCompatActivity {
             }
         }
     }
+
+
+    public void openActivity2(){
+        Intent intent = new Intent(this,DispositivosBT.class);
+        startActivity(intent);
+    }
+
+
+
 }

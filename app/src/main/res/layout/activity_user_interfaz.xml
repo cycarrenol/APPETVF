@@ -4,16 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".userinterfaz.UserInterfaz">
+    tools:context=".userinterfaz.UserInterfaz"
+    android:background="#FFFFFF"
+    >
 
 
     <Button
-        android:id="@+id/createq"
-        android:layout_width="63dp"
+        android:id="@+id/BatrasDispositivos"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/IdDesconectar"
-        android:layout_marginStart="106dp"
+        android:layout_alignParentTop="true"
+
+        android:layout_marginTop="31dp"
+        android:background="#436827"
+        android:text="Atras"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/BguardarTXT"
+        android:layout_width="63dp"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/BiniciarEnvioRecepcion"
+        android:layout_alignTop="@+id/BidDesconectar"
         android:background="#989898"
         android:text="Guardar"
         android:textColor="#FFFFFF"
@@ -21,12 +34,12 @@
 
 
     <Button
-        android:id="@+id/Begin"
+        android:id="@+id/BiniciarEnvioRecepcion"
         android:layout_width="52dp"
         android:layout_height="32dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/textoTXT"
-        android:layout_marginTop="224dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="134dp"
         android:background="#436827"
         android:text="iniciar"
         android:textColor="#FFFFFF" />
@@ -36,10 +49,9 @@
         android:id="@+id/ETSeparacion"
         android:layout_width="109dp"
         android:layout_height="54dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="47dp"
-        android:layout_marginTop="81dp"
+        android:layout_above="@+id/BenviarNumele"
+        android:layout_alignEnd="@+id/BiniciarEnvioRecepcion"
+        android:layout_marginBottom="-148dp"
         android:background="#FFFFFF"
         android:digits="0123456789."
         android:hapticFeedbackEnabled="false"
@@ -51,11 +63,12 @@
 
 
     <EditText
-        android:id="@+id/NUMELE"
+        android:id="@+id/ETnumele"
         android:layout_width="wrap_content"
         android:layout_height="51dp"
-        android:layout_alignStart="@+id/ETSeparacion"
-        android:layout_alignTop="@+id/EnviarNumele"
+        android:layout_alignEnd="@+id/BiniciarEnvioRecepcion"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="160dp"
         android:background="#FFFFFF"
         android:digits="0123456789."
         android:hapticFeedbackEnabled="false"
@@ -66,7 +79,7 @@
         android:textSize="15sp" />
 
     <Button
-        android:id="@+id/EnviarNumele"
+        android:id="@+id/BenviarNumele"
         android:layout_width="115dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -76,16 +89,16 @@
         android:text="Enviar" />
 
     <Button
-        android:id="@+id/EnviarSeparacion"
+        android:id="@+id/BenviarSeparacion"
         android:layout_width="116dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/EnviarNumele"
-        android:layout_alignTop="@+id/ETSeparacion"
+        android:layout_alignBottom="@+id/ETSeparacion"
+        android:layout_alignStart="@+id/BenviarNumele"
         android:text="Enviar" />
 
 
     <Button
-        android:id="@+id/IdDesconectar"
+        android:id="@+id/BidDesconectar"
         android:layout_width="74dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -100,15 +113,15 @@
         android:id="@+id/imageView"
         android:layout_width="108dp"
         android:layout_height="54dp"
+        android:layout_alignEnd="@+id/BidDesconectar"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="21dp"
         android:adjustViewBounds="true"
         app:srcCompat="@drawable/junglelogojpg" />
 
 
     <TextView
-        android:id="@+id/textoTXT"
+        android:id="@+id/TVresistividades"
         android:layout_width="133dp"
         android:layout_height="157dp"
         android:layout_alignParentBottom="true"
@@ -124,8 +137,9 @@
         android:id="@+id/button3"
         android:layout_width="50dp"
         android:layout_height="32dp"
-        android:layout_alignStart="@+id/EnviarNumele"
-        android:layout_alignTop="@+id/Begin"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/BiniciarEnvioRecepcion"
+        android:layout_marginEnd="103dp"
         android:background="#FF0000"
         android:baselineAligned="false"
         android:text="PARAR"
