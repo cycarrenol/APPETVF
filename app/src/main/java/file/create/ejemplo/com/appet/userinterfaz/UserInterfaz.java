@@ -41,8 +41,10 @@ public class UserInterfaz extends AppCompatActivity {
     String opcion1 = "1";//Separacion
     String opcion2 = "2";//numero de electrodos
     String opcion3 = "3";//Resistividad
+    String randomString2="0";
 
 
+    int contadorSeparacion =0;
     Button BatrasDispositivos;
     Button BguardarTXT;
     Button BiniciarEnvioRecepcion;
@@ -124,7 +126,7 @@ public class UserInterfaz extends AppCompatActivity {
 
                 FileOutputStream fileOutputStream = null;
 
-                File myDirectoty1 =  new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),"RESISTIVIDADES");
+                File myDirectoty1 =  new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"RESISTIVIDADES");
 
                 myDirectoty1.mkdir();
                 File file = new File(myDirectoty1, archivo);
@@ -170,19 +172,20 @@ public class UserInterfaz extends AppCompatActivity {
 
 
 
-                       // int ValNumero = Integer.parseInt(dataInPrint);
 
 
-                        if(dataInPrint.equals(ETSeparacion.getText().toString())){
+                        if(dataInPrint.equals(ETSeparacion.getText().toString())) {
 
-
-
+                            contadorSeparacion+=1;
                             BenviarSeparacion.setBackgroundColor(Color.GREEN);
                             BenviarSeparacion.setText("OK");
-                           TVresistividades.setText(dataInPrint);
+                            TVresistividades.setText(dataInPrint);
 
-                         }
-                        if(dataInPrint.equals(ETnumele.getText().toString())){
+                        }
+
+                        if(dataInPrint.equals(ETnumele.getText().toString())) {
+
+                            contadorSeparacion+=1;
 
 
                             BenviarNumele.setBackgroundColor(Color.GREEN);
@@ -190,8 +193,11 @@ public class UserInterfaz extends AppCompatActivity {
                             TVresistividades.setText(dataInPrint);
 
 
-
                         }
+                        if(contadorSeparacion == 2){
+                            TVresistividades.setText("BIEN LOS DOS");
+                        }
+
 
 
                         DataStringIN.delete(0, DataStringIN.length());
@@ -207,40 +213,93 @@ public class UserInterfaz extends AppCompatActivity {
         // para indicar que se realizara cuando se detecte
         // el evento de Click
 
+
+
         BenviarSeparacion.setOnClickListener(new View.OnClickListener() {// ENCENDER LED
             public void onClick(View v)
 
             {
 
 
-                String datoEnvioSeparacion  =   ETSeparacion.getText().toString()+"#";
+                    String datoEnvioSeparacion = ETSeparacion.getText().toString();
 
-                if(!datoEnvioSeparacion.equals("#")){
+                if(datoEnvioSeparacion.matches("")) {
+
+                    ETSeparacion.setHint("Ingrese un numero");
+                    ETSeparacion.setHintTextColor(Color.RED);
+
+
+                }else{
+
+                    datoEnvioSeparacion = datoEnvioSeparacion+"#";
                     MyConexionBT.write(datoEnvioSeparacion);
                 }
 
 
-                   // TVresistividades.setText(datoEnvioSeparacion);
+
 
 
             }
         });
+
+
 
         BenviarNumele.setOnClickListener(new View.OnClickListener() {// APAGAR LED
             public void onClick(View v) {
 
-                String datoEnvioNumele  =   ETnumele.getText().toString()+"$";
 
-                if(!datoEnvioNumele.equals("$")){
+                       String   datoEnvioNumele  =   ETnumele.getText().toString();
+
+
+
+                if(datoEnvioNumele.matches("")) {
+
+                    ETnumele.setHint("Ingrese un numero");
+                    ETnumele.setHintTextColor(Color.RED);
+
+
+                }else{
+
+                    datoEnvioNumele = datoEnvioNumele+"$";
                     MyConexionBT.write(datoEnvioNumele);
                 }
 
-              //  TVresistividades.setText(datoEnvioNumele);
+
+                //  TVresistividades.setText(datoEnvioNumele);
 
             }
         });
 
+        if(contadorSeparacion ==2) {
+            BiniciarEnvioRecepcion.setOnClickListener(new View.OnClickListener() {// APAGAR LED
+                public void onClick(View v) {
 
+
+                    for (int i = 0; i < 10; i++) {
+                        Random r = new Random();
+
+
+                        int aleatorio = 10 + r.nextInt(100);
+
+
+                        String randomString = String.valueOf(aleatorio);
+                        String randomStringMandar = randomString + "*";
+
+                        if (!randomStringMandar.equals("*")) {
+                            MyConexionBT.write(randomStringMandar);
+                        }
+
+
+                        randomString2 = randomString;
+
+
+                    }
+                }//
+
+
+            });
+
+        }
 
 
 
