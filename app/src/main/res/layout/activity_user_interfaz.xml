@@ -58,8 +58,7 @@
         android:hapticFeedbackEnabled="false"
         android:hint="separación"
         android:inputType="numberDecimal"
-        android:text=" "
-        android:textColor="#436827"
+         android:textColor="#436827"
         android:textColorHint="#436827"
         android:textSize="15sp" />
 

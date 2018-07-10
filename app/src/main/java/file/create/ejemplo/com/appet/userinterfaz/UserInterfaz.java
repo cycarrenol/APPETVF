@@ -175,7 +175,6 @@ public class UserInterfaz extends AppCompatActivity {
 
                             BenviarSeparacion.setBackgroundColor(Color.GREEN);
                             BenviarSeparacion.setText("OK");
-                            TVresistividades.setText(dataInPrint);
 
                         }
 
@@ -184,7 +183,6 @@ public class UserInterfaz extends AppCompatActivity {
 
                             BenviarNumele.setBackgroundColor(Color.GREEN);
                             BenviarNumele.setText("OK");
-                            TVresistividades.setText(dataInPrint);
 
                         }
 
@@ -220,7 +218,6 @@ public class UserInterfaz extends AppCompatActivity {
 
                     ETSeparacion.setHint("Ingrese un numero");
                     ETSeparacion.setHintTextColor(Color.RED);
-
 
                 } else {
                     contadorSeparacion += 1;
