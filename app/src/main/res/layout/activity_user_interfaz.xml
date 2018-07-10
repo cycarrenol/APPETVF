@@ -11,7 +11,7 @@
 
     <Button
         android:id="@+id/BatrasDispositivos"
-        android:layout_width="wrap_content"
+        android:layout_width="65dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
@@ -19,7 +19,8 @@
         android:layout_marginTop="31dp"
         android:background="#436827"
         android:text="Atras"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/BguardarTXT"
@@ -31,12 +32,13 @@
         android:background="#989898"
         android:text="Guardar"
         android:textColor="#FFFFFF"
-        android:textSize="10sp" />
+        android:textSize="10sp"
+        android:textStyle="bold" />
 
 
     <Button
         android:id="@+id/BiniciarEnvioRecepcion"
-        android:layout_width="66dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="253dp"
@@ -48,54 +50,53 @@
 
     <EditText
         android:id="@+id/ETSeparacion"
-        android:layout_width="61dp"
-        android:layout_height="39dp"
-        android:layout_alignBottom="@+id/textView"
+        android:layout_width="75dp"
+        android:layout_height="40dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="136dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="116dp"
+        android:layout_marginTop="102dp"
         android:background="#d3d3d3"
         android:digits="0123456789."
+        android:gravity="fill_vertical|center_horizontal"
         android:hapticFeedbackEnabled="false"
-        android:hint="separación"
+        android:hint="ingrese un numero"
         android:inputType="numberDecimal"
-         android:textColor="#436827"
+        android:textColor="#436827"
         android:textColorHint="#436827"
-        android:textSize="15sp" />
+        android:textSize="10sp"
+        android:textStyle="bold" />
 
 
     <EditText
         android:id="@+id/ETnumele"
-        android:layout_width="60dp"
+        android:layout_width="76dp"
         android:layout_height="44dp"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/ETSeparacion"
-        android:layout_marginTop="191dp"
+        android:layout_marginTop="154dp"
         android:background="#d3d3d3"
         android:digits="0123456789."
+        android:gravity="fill_vertical|center_horizontal"
         android:hapticFeedbackEnabled="false"
+        android:hint="ingrese un  numero"
         android:inputType="numberDecimal"
         android:textColor="#436827"
         android:textColorHint="#436827"
-        android:textSize="15sp" />
+        android:textSize="10sp"
+        android:textStyle="bold" />
+
 
     <Button
-        android:id="@+id/BenviarNumele"
-        android:layout_width="54dp"
+        android:id="@+id/BenviarSepNumele"
+        android:layout_width="101dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/ETnumele"
-        android:layout_alignEnd="@+id/BenviarSeparacion"
-        android:text="enviarNum"
-        android:textSize="5sp" />
-
-    <Button
-        android:id="@+id/BenviarSeparacion"
-        android:layout_width="51dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/ETSeparacion"
-        android:layout_marginStart="-90dp"
-        android:layout_toEndOf="@+id/button3"
-        android:text="Enviarsep"
-        android:textSize="5sp" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="210dp"
+        android:text="Enviar"
+        android:textSize="15sp"
+        android:textStyle="bold" />
 
 
     <Button
@@ -107,7 +108,8 @@
         android:layout_marginBottom="17dp"
         android:background="@android:color/holo_orange_dark"
         android:text="Desconectar"
-        android:textSize="9sp" />
+        android:textSize="9sp"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -129,7 +131,10 @@
         android:background="#E9E9E9"
         android:fontFamily="monospace"
         android:text="No hay entradas de resistividad"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        android:lines="60"
+        android:minLines="60"
+        android:singleLine="false"        />
 
 
     <Button
@@ -143,26 +148,29 @@
         android:baselineAligned="false"
         android:text="PARAR"
         android:textColor="@android:color/background_light"
+        android:textStyle="bold"
         tools:ignore="RtlCompat" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="96dp"
+        android:layout_width="101dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/textView2"
-        android:layout_marginTop="124dp"
 
 
+        android:layout_alignBottom="@+id/ETSeparacion"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="67dp"
+        android:gravity="fill_vertical|center_horizontal"
         android:text="Separacion de electrodos" />
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="80dp"
+        android:layout_width="102dp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/ETnumele"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="40dp"
+        android:layout_above="@+id/ETnumele"
+        android:layout_alignStart="@+id/BguardarTXT"
+        android:layout_marginBottom="-191dp"
+        android:gravity="center_horizontal"
         android:text="Numero de electrodos" />
 
 

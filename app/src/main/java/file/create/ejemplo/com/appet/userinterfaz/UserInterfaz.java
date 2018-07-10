@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -54,8 +55,7 @@ public class UserInterfaz extends AppCompatActivity {
     Button BiniciarEnvioRecepcion;
 
 
-    Button BenviarNumele;
-    Button BenviarSeparacion;
+     Button BenviarSepNumele;
     Button BidDesconectar;
 
 
@@ -96,8 +96,7 @@ public class UserInterfaz extends AppCompatActivity {
 
         //------------------------------------------------------------------------------------------
 
-        BenviarNumele = (Button) findViewById(file.create.ejemplo.com.appet.R.id.BenviarNumele);
-        BenviarSeparacion = (Button) findViewById(file.create.ejemplo.com.appet.R.id.BenviarSeparacion);
+        BenviarSepNumele = (Button) findViewById(file.create.ejemplo.com.appet.R.id.BenviarSepNumele);
         BidDesconectar = (Button) findViewById(file.create.ejemplo.com.appet.R.id.BidDesconectar);
         BiniciarEnvioRecepcion = (Button) findViewById(R.id.BiniciarEnvioRecepcion);
         BguardarTXT = (Button) findViewById(R.id.BguardarTXT);
@@ -173,18 +172,12 @@ public class UserInterfaz extends AppCompatActivity {
 
                         if (dataInPrint.equals(ETSeparacion.getText().toString())) {
 
-                            BenviarSeparacion.setBackgroundColor(Color.GREEN);
-                            BenviarSeparacion.setText("OK");
+                            BenviarSepNumele.setBackgroundColor(Color.GREEN);
+                            BenviarSepNumele.setText("OK");
 
                         }
 
-                        if (dataInPrint.equals(ETnumele.getText().toString())) {
 
-
-                            BenviarNumele.setBackgroundColor(Color.GREEN);
-                            BenviarNumele.setText("OK");
-
-                        }
 
                         if (permitirIterar == 1) {
 
@@ -207,19 +200,25 @@ public class UserInterfaz extends AppCompatActivity {
         // para indicar que se realizara cuando se detecte
         // el evento de Click
 
-        BenviarSeparacion.setOnClickListener(new View.OnClickListener() {// ENCENDER LED
+        BenviarSepNumele.setOnClickListener(new View.OnClickListener() {// ENCENDER LED
             public void onClick(View v)
 
             {
 
                 String datoEnvioSeparacion = ETSeparacion.getText().toString();
+                String datoEnvioNumele = ETnumele.getText().toString();
 
                 if (datoEnvioSeparacion.matches("")) {
 
                     ETSeparacion.setHint("Ingrese un numero");
                     ETSeparacion.setHintTextColor(Color.RED);
 
-                } else {
+
+                }else if(datoEnvioNumele.matches("")){
+
+                    ETnumele.setHint("Ingrese un numero");
+                    ETnumele.setHintTextColor(Color.RED);
+                }else {
                     contadorSeparacion += 1;
                     datoEnvioSeparacion = datoEnvioSeparacion + "#";
                     MyConexionBT.write(datoEnvioSeparacion);
@@ -229,36 +228,13 @@ public class UserInterfaz extends AppCompatActivity {
             }
         });
 
-        BenviarNumele.setOnClickListener(new View.OnClickListener() {// APAGAR LED
-            public void onClick(View v) {
-
-
-                String datoEnvioNumele = ETnumele.getText().toString();
-
-
-                if (datoEnvioNumele.matches("")) {
-
-                    ETnumele.setHint("Ingrese un numero");
-                    ETnumele.setHintTextColor(Color.RED);
-
-
-                } else {
-
-                    contadorSeparacion += 1;
-                    datoEnvioNumele = datoEnvioNumele + "$";
-                    MyConexionBT.write(datoEnvioNumele);
-                }
-
-
-            }
-        });
 
         mHandler = new Handler();
 
         BiniciarEnvioRecepcion.setOnClickListener(new View.OnClickListener() {// APAGAR LED
             public void onClick(View v) {
 
-                if (contadorSeparacion >= 2) {
+                if (contadorSeparacion >= 1) {
 
                     permitirIterar = permitirIterar + 1;
                     mCounter = 0;
@@ -411,9 +387,16 @@ public class UserInterfaz extends AppCompatActivity {
 
         MyConexionBT.write("GO*");
 
-        TVresistividades.setText(aleatorioString);
+        //TVresistividades.setText(aleatorioString);
+        if(mCounter==1){
+            TVresistividades.setText("");
+        }else{
+            TVresistividades.append(String.valueOf(aleatorioString));
+            TVresistividades.append("\n"); // for new line
 
-        // Schedule the task to do again after an interval
+        }
+
+         // Schedule the task to do again after an interval
         mHandler.postDelayed(mRunnable, mInterval);
 
         // If the task reach the maximum repeat count then stop it here
