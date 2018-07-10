@@ -28,6 +28,9 @@ import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
+import android.os.Handler;
+
+
 import file.create.ejemplo.com.appet.R;
 import file.create.ejemplo.com.appet.dispositivosbt.DispositivosBT;
 import file.create.ejemplo.com.appet.MainActivity;
@@ -35,16 +38,17 @@ import file.create.ejemplo.com.appet.MainActivity;
 public class UserInterfaz extends AppCompatActivity {
 
 
-    //public String StringAleatorio;// por ahora inactivo
+   private String dato = "";
+   private String aleatorioString;
 
-    String dato = "";
-    String opcion1 = "1";//Separacion
-    String opcion2 = "2";//numero de electrodos
-    String opcion3 = "3";//Resistividad
-    String randomString2="0";
+    private int mCounter;
+    private Handler mHandler;
+    private int mInterval = 1000;
+    private Runnable mRunnable;
+    private int mMaxRepeat = 60;
 
-
-    int contadorSeparacion =0;
+    int contadorSeparacion = 0;
+    int permitirIterar = 0;
     Button BatrasDispositivos;
     Button BguardarTXT;
     Button BiniciarEnvioRecepcion;
@@ -57,8 +61,8 @@ public class UserInterfaz extends AppCompatActivity {
 
     EditText ETSeparacion;
     EditText ETnumele;
-
     TextView TVresistividades;
+
     //-------------------------------------------
     Handler bluetoothIn;
     final int handlerState = 0;
@@ -90,25 +94,21 @@ public class UserInterfaz extends AppCompatActivity {
         });
 
 
-        //-----------------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------
 
-        BenviarNumele =          (Button) findViewById(file.create.ejemplo.com.appet.R.id.BenviarNumele);
-        BenviarSeparacion =      (Button) findViewById(file.create.ejemplo.com.appet.R.id.BenviarSeparacion);
-        BidDesconectar =         (Button) findViewById(file.create.ejemplo.com.appet.R.id.BidDesconectar);
+        BenviarNumele = (Button) findViewById(file.create.ejemplo.com.appet.R.id.BenviarNumele);
+        BenviarSeparacion = (Button) findViewById(file.create.ejemplo.com.appet.R.id.BenviarSeparacion);
+        BidDesconectar = (Button) findViewById(file.create.ejemplo.com.appet.R.id.BidDesconectar);
         BiniciarEnvioRecepcion = (Button) findViewById(R.id.BiniciarEnvioRecepcion);
-        BguardarTXT =            (Button) findViewById(R.id.BguardarTXT);// asigno a la variable create (de tipo botton) al elemento Button del layout
-        ETSeparacion =           (EditText) findViewById(file.create.ejemplo.com.appet.R.id.ETSeparacion);
-        ETnumele =               (EditText) findViewById(file.create.ejemplo.com.appet.R.id.ETnumele);
-        TVresistividades =       (TextView) findViewById(R.id.TVresistividades);
+        BguardarTXT = (Button) findViewById(R.id.BguardarTXT);
+        ETSeparacion = (EditText) findViewById(file.create.ejemplo.com.appet.R.id.ETSeparacion);
+        ETnumele = (EditText) findViewById(file.create.ejemplo.com.appet.R.id.ETnumele);
+        TVresistividades = (TextView) findViewById(R.id.TVresistividades);
 
 
+        //------------------------------------------------------------------------------------------
 
-        //-----------------------------------------------------------------------------------------------
-
-
-
-
-        ///----------------------------------------------------------------Metodo para crear el TXT
+        ///-----------------------------------------------------------------Metodo para crear el TXT
 
         BguardarTXT.setOnClickListener(new View.OnClickListener() {// METODO PARA CREAR EL ARCHIVO EN UNA CARPETA
             @Override
@@ -117,7 +117,7 @@ public class UserInterfaz extends AppCompatActivity {
                 Date c = Calendar.getInstance().getTime();
 
                 SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss(dd-MM-yyyy)");
-                String archivo = df.format(c)+".txt";
+                String archivo = df.format(c) + ".txt";
 
                 //String archivo ="Miarchivo.txt";
 
@@ -126,37 +126,37 @@ public class UserInterfaz extends AppCompatActivity {
 
                 FileOutputStream fileOutputStream = null;
 
-                File myDirectoty1 =  new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"RESISTIVIDADES");
+                //File myDirectoty1 =
+                // new File(Environment.getExternalStoragePublicDirectory
+                // (Environment.DIRECTORY_DOWNLOADS),"RESISTIVIDADES");
 
+                File myDirectoty1 = new File(Environment.getExternalStorageDirectory(), "RESISTIVIDADES");
                 myDirectoty1.mkdir();
                 File file = new File(myDirectoty1, archivo);
 
                 Context context = getApplicationContext();
 
-                String ruta ="Archivo guardado en: "+myDirectoty1.getName()+"/"+archivo;
-
-                //String ruta = myDirectoty1.getAbsolutePath()+"/"+archivo;
-                //  textRuta.setText(ruta);// Imprime la ruta del almacenamiento  del archivo
+                String ruta = "Archivo guardado en: " + myDirectoty1.getName() + "/" + archivo;
 
                 int duration = Toast.LENGTH_LONG;
                 Toast toast = Toast.makeText(context, ruta, duration);
-                toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL,0,0);// CHANGE POSITION OF TOAST
+                toast.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);// CHANGE POSITION OF TOAST
                 toast.show();
 
                 try {
 
                     FileOutputStream os = fileOutputStream = new FileOutputStream(file);
-                    String data ="Texto inicial por defecto";
-                    TVresistividades.setText(data);
+                    String data = "Texto inicial por defecto";
+                    TVresistividades.setText(TVresistividades.getText());
                     os.write(data.getBytes());
                     os.close();
-                } catch ( Exception e) {// Con exception  se maneja cualquier excepción
+                } catch (Exception e) {// Con exception  se maneja cualquier excepción
                     e.printStackTrace();
                 }
             }
         });
 
-        //------------------------------------------------------------Metodo para crear TXT
+        //-----------------------------------------------------------------Fin método para crear TXT
 
         bluetoothIn = new Handler() {
             public void handleMessage(android.os.Message msg) {
@@ -171,34 +171,30 @@ public class UserInterfaz extends AppCompatActivity {
                         String dataInPrint = DataStringIN.substring(0, endOfLineIndex);
 
 
+                        if (dataInPrint.equals(ETSeparacion.getText().toString())) {
 
-
-
-                        if(dataInPrint.equals(ETSeparacion.getText().toString())) {
-
-                            contadorSeparacion+=1;
                             BenviarSeparacion.setBackgroundColor(Color.GREEN);
                             BenviarSeparacion.setText("OK");
                             TVresistividades.setText(dataInPrint);
 
                         }
 
-                        if(dataInPrint.equals(ETnumele.getText().toString())) {
-
-                            contadorSeparacion+=1;
+                        if (dataInPrint.equals(ETnumele.getText().toString())) {
 
 
                             BenviarNumele.setBackgroundColor(Color.GREEN);
                             BenviarNumele.setText("OK");
                             TVresistividades.setText(dataInPrint);
 
-
-                        }
-                        if(contadorSeparacion == 2){
-                            TVresistividades.setText("BIEN LOS DOS");
                         }
 
+                        if (permitirIterar == 1) {
 
+
+                            aleatorioString = dataInPrint;
+
+
+                        }
 
                         DataStringIN.delete(0, DataStringIN.length());
                     }
@@ -213,104 +209,93 @@ public class UserInterfaz extends AppCompatActivity {
         // para indicar que se realizara cuando se detecte
         // el evento de Click
 
-
-
         BenviarSeparacion.setOnClickListener(new View.OnClickListener() {// ENCENDER LED
             public void onClick(View v)
 
             {
 
+                String datoEnvioSeparacion = ETSeparacion.getText().toString();
 
-                    String datoEnvioSeparacion = ETSeparacion.getText().toString();
-
-                if(datoEnvioSeparacion.matches("")) {
+                if (datoEnvioSeparacion.matches("")) {
 
                     ETSeparacion.setHint("Ingrese un numero");
                     ETSeparacion.setHintTextColor(Color.RED);
 
 
-                }else{
-
-                    datoEnvioSeparacion = datoEnvioSeparacion+"#";
+                } else {
+                    contadorSeparacion += 1;
+                    datoEnvioSeparacion = datoEnvioSeparacion + "#";
                     MyConexionBT.write(datoEnvioSeparacion);
                 }
 
 
-
-
-
             }
         });
-
-
 
         BenviarNumele.setOnClickListener(new View.OnClickListener() {// APAGAR LED
             public void onClick(View v) {
 
 
-                       String   datoEnvioNumele  =   ETnumele.getText().toString();
+                String datoEnvioNumele = ETnumele.getText().toString();
 
 
-
-                if(datoEnvioNumele.matches("")) {
+                if (datoEnvioNumele.matches("")) {
 
                     ETnumele.setHint("Ingrese un numero");
                     ETnumele.setHintTextColor(Color.RED);
 
 
-                }else{
+                } else {
 
-                    datoEnvioNumele = datoEnvioNumele+"$";
+                    contadorSeparacion += 1;
+                    datoEnvioNumele = datoEnvioNumele + "$";
                     MyConexionBT.write(datoEnvioNumele);
                 }
 
 
-                //  TVresistividades.setText(datoEnvioNumele);
-
             }
         });
 
-        if(contadorSeparacion ==2) {
-            BiniciarEnvioRecepcion.setOnClickListener(new View.OnClickListener() {// APAGAR LED
-                public void onClick(View v) {
+        mHandler = new Handler();
 
+        BiniciarEnvioRecepcion.setOnClickListener(new View.OnClickListener() {// APAGAR LED
+            public void onClick(View v) {
 
-                    for (int i = 0; i < 10; i++) {
-                        Random r = new Random();
+                if (contadorSeparacion >= 2) {
 
+                    permitirIterar = permitirIterar + 1;
+                    mCounter = 0;
 
-                        int aleatorio = 10 + r.nextInt(100);
+                    mRunnable = new Runnable() {
 
-
-                        String randomString = String.valueOf(aleatorio);
-                        String randomStringMandar = randomString + "*";
-
-                        if (!randomStringMandar.equals("*")) {
-                            MyConexionBT.write(randomStringMandar);
+                        @Override
+                        public void run() {
+                            // Método que marca la iteración
+                            doTask();
                         }
+                    };
 
 
-                        randomString2 = randomString;
+                    mHandler.postDelayed(mRunnable, (mInterval));
+
+                }
 
 
-                    }
-                }//
+            }
 
 
-            });
-
-        }
-
-
+        });
 
 
         BidDesconectar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (btSocket!=null)
-                {
-                    try {btSocket.close();}
-                    catch (IOException e)
-                    { Toast.makeText(getBaseContext(), "Error", Toast.LENGTH_SHORT).show();;}
+                if (btSocket != null) {
+                    try {
+                        btSocket.close();
+                    } catch (IOException e) {
+                        Toast.makeText(getBaseContext(), "Error", Toast.LENGTH_SHORT).show();
+                        ;
+                    }
                 }
                 finish();
             }
@@ -319,16 +304,14 @@ public class UserInterfaz extends AppCompatActivity {
 
     }
 
-    private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException
-    {
+    private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
         //crea un conexion de salida segura para el dispositivo
         //usando el servicio UUID
         return device.createRfcommSocketToServiceRecord(BTMODULEUUID);
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
         //Consigue la direccion MAC desde DeviceListActivity via intent
         Intent intent = getIntent();
@@ -337,40 +320,38 @@ public class UserInterfaz extends AppCompatActivity {
         //Setea la direccion MAC
         BluetoothDevice device = btAdapter.getRemoteDevice(address);
 
-        try
-        {
+        try {
             btSocket = createBluetoothSocket(device);
         } catch (IOException e) {
             Toast.makeText(getBaseContext(), "La creacción del Socket fallo", Toast.LENGTH_LONG).show();
         }
         // Establece la conexión con el socket Bluetooth.
-        try
-        {
+        try {
             btSocket.connect();
         } catch (IOException e) {
             try {
                 btSocket.close();
-            } catch (IOException e2) {}
+            } catch (IOException e2) {
+            }
         }
         MyConexionBT = new ConnectedThread(btSocket);
         MyConexionBT.start();
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
-        try
-        { // Cuando se sale de la aplicación esta parte permite
+        try { // Cuando se sale de la aplicación esta parte permite
             // que no se deje abierto el socket
             btSocket.close();
-        } catch (IOException e2) {}
+        } catch (IOException e2) {
+        }
     }
 
     //Comprueba que el dispositivo Bluetooth Bluetooth está disponible y solicita que se active si está desactivado
     private void VerificarEstadoBT() {
 
-        if(btAdapter==null) {
+        if (btAdapter == null) {
             Toast.makeText(getBaseContext(), "El dispositivo no soporta bluetooth", Toast.LENGTH_LONG).show();
         } else {
             if (btAdapter.isEnabled()) {
@@ -382,26 +363,23 @@ public class UserInterfaz extends AppCompatActivity {
     }
 
     //Crea la clase que permite crear el evento de conexion
-    private class ConnectedThread extends Thread
-    {
+    private class ConnectedThread extends Thread {
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
 
-        public ConnectedThread(BluetoothSocket socket)
-        {
+        public ConnectedThread(BluetoothSocket socket) {
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
-            try
-            {
+            try {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
-            } catch (IOException e) { }
+            } catch (IOException e) {
+            }
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
         }
 
-        public void run()
-        {
+        public void run() {
             byte[] buffer = new byte[256];
             int bytes;
 
@@ -417,14 +395,12 @@ public class UserInterfaz extends AppCompatActivity {
                 }
             }
         }
+
         //Envio de trama
-        public void write(String input)
-        {
+        public void write(String input) {
             try {
                 mmOutStream.write(input.getBytes());
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 //si no es posible enviar datos se cierra la conexión
                 Toast.makeText(getBaseContext(), "La Conexión fallo", Toast.LENGTH_LONG).show();
                 finish();
@@ -433,11 +409,31 @@ public class UserInterfaz extends AppCompatActivity {
     }
 
 
-    public void openActivity2(){
-        Intent intent = new Intent(this,DispositivosBT.class);
-        startActivity(intent);
+    protected void doTask() {
+        mCounter++;
+
+        MyConexionBT.write("GO*");
+
+        TVresistividades.setText(aleatorioString);
+
+        // Schedule the task to do again after an interval
+        mHandler.postDelayed(mRunnable, mInterval);
+
+        // If the task reach the maximum repeat count then stop it here
+        if (mCounter == mMaxRepeat) {
+            /*
+                public final void removeCallbacks (Runnable r)
+                    Remove any pending posts of Runnable r that are in the message queue.
+            */
+            mHandler.removeCallbacks(mRunnable);
+        }
     }
 
+
+    public void openActivity2() {
+        Intent intent = new Intent(this, DispositivosBT.class);
+        startActivity(intent);
+    }
 
 
 }
