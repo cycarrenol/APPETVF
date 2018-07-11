@@ -9,62 +9,24 @@
     >
 
 
-    <Button
-        android:id="@+id/BatrasDispositivos"
-        android:layout_width="65dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-
-        android:layout_marginTop="31dp"
-        android:background="#436827"
-        android:text="Atras"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/BguardarTXT"
-        android:layout_width="63dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/BidDesconectar"
-        android:layout_marginStart="64dp"
-        android:background="#989898"
-        android:text="Guardar"
-        android:textColor="#FFFFFF"
-        android:textSize="10sp"
-        android:textStyle="bold" />
-
-
-    <Button
-        android:id="@+id/BiniciarEnvioRecepcion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="253dp"
-        android:layout_toEndOf="@+id/BatrasDispositivos"
-        android:background="#436827"
-        android:text="iniciar"
-        android:textColor="#FFFFFF" />
-
-
     <EditText
         android:id="@+id/ETSeparacion"
-        android:layout_width="75dp"
-        android:layout_height="40dp"
+        android:layout_width="80dp"
+        android:layout_height="41dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_marginEnd="116dp"
+        android:layout_marginEnd="111dp"
         android:layout_marginTop="102dp"
         android:background="#d3d3d3"
         android:digits="0123456789."
         android:gravity="fill_vertical|center_horizontal"
         android:hapticFeedbackEnabled="false"
-        android:hint="ingrese un numero"
+        android:hint="Ingresar"
         android:inputType="numberDecimal"
+        android:padding="3dp"
         android:textColor="#436827"
         android:textColorHint="#436827"
-        android:textSize="10sp"
+        android:textSize="15sp"
         android:textStyle="bold" />
 
 
@@ -74,7 +36,7 @@
         android:layout_height="44dp"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/ETSeparacion"
-        android:layout_marginTop="154dp"
+        android:layout_marginTop="156dp"
         android:background="#d3d3d3"
         android:digits="0123456789."
         android:gravity="fill_vertical|center_horizontal"
@@ -83,40 +45,16 @@
         android:inputType="numberDecimal"
         android:textColor="#436827"
         android:textColorHint="#436827"
-        android:textSize="10sp"
-        android:textStyle="bold" />
-
-
-    <Button
-        android:id="@+id/BenviarSepNumele"
-        android:layout_width="101dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="210dp"
-        android:text="Enviar"
         android:textSize="15sp"
-        android:textStyle="bold" />
-
-
-    <Button
-        android:id="@+id/BidDesconectar"
-        android:layout_width="74dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/button3"
-        android:layout_marginBottom="17dp"
-        android:background="@android:color/holo_orange_dark"
-        android:text="Desconectar"
-        android:textSize="9sp"
         android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="108dp"
-        android:layout_height="54dp"
-        android:layout_alignTop="@+id/BatrasDispositivos"
+        android:layout_width="175dp"
+        android:layout_height="79dp"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         android:adjustViewBounds="true"
         app:srcCompat="@drawable/junglelogojpg" />
 
@@ -134,22 +72,9 @@
         android:textColor="#000000"
         android:lines="60"
         android:minLines="60"
-        android:singleLine="false"        />
+        android:singleLine="false"
+         />
 
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="63dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/BiniciarEnvioRecepcion"
-        android:layout_marginEnd="90dp"
-        android:background="#FF0000"
-        android:baselineAligned="false"
-        android:text="PARAR"
-        android:textColor="@android:color/background_light"
-        android:textStyle="bold"
-        tools:ignore="RtlCompat" />
 
     <TextView
         android:id="@+id/textView"
@@ -161,17 +86,69 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="67dp"
         android:gravity="fill_vertical|center_horizontal"
-        android:text="Separacion de electrodos" />
+        android:text="Separacion de electrodos"
+        android:textColor="#000000" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="102dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/ETnumele"
-        android:layout_alignStart="@+id/BguardarTXT"
-        android:layout_marginBottom="-191dp"
+        android:layout_alignStart="@+id/textView"
+        android:layout_alignTop="@+id/ETnumele"
         android:gravity="center_horizontal"
-        android:text="Numero de electrodos" />
+        android:text="Numero de electrodos"
+        android:textColor="#000000" />
+
+    <ImageButton
+        android:id="@+id/BiniciarEnvioRecepcion"
+        android:layout_width="68dp"
+        android:layout_height="57dp"
+        android:layout_alignParentBottom="true"
+
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="244dp"
+        android:layout_marginStart="54dp"
+        android:background=" #436827"
+        app:srcCompat="@android:drawable/ic_media_play" />
+
+    <ImageButton
+        android:id="@+id/BidDesconectar"
+        android:layout_width="53dp"
+        android:layout_height="48dp"
+        android:layout_alignEnd="@+id/TVresistividades"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="19dp"
+        android:layout_marginEnd="-2dp"
+        android:background="#ff6666"
+        app:srcCompat="@android:drawable/ic_lock_power_off" />
+
+    <ImageButton
+        android:id="@+id/BguardarTXT"
+        android:layout_width="61dp"
+        android:layout_height="51dp"
+        android:layout_alignStart="@+id/TVresistividades"
+        android:layout_alignTop="@+id/BidDesconectar"
+        android:background="#7EC0EE"
+        app:srcCompat="@android:drawable/ic_menu_save" />
+
+    <ImageButton
+        android:id="@+id/BatrasDispositivos"
+        android:layout_width="61dp"
+        android:layout_height="56dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/BiniciarEnvioRecepcion"
+        android:layout_marginEnd="64dp"
+        android:background="#bf7fbf"
+        app:srcCompat="@android:drawable/ic_menu_rotate" />
+
+    <ImageButton
+        android:id="@+id/BenviarSepNumele"
+        android:layout_width="63dp"
+        android:layout_height="52dp"
+        android:layout_above="@+id/BiniciarEnvioRecepcion"
+        android:layout_centerHorizontal="true"
+        android:background="#BFBFBF"
+        app:srcCompat="@android:drawable/ic_menu_send" />
 
 
 </RelativeLayout>

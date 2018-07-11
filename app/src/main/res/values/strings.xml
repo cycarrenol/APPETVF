@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">APPET</string>
+
+    <string-array name="country">
+        <item>8</item>
+        <item>16</item>
+        <item>24</item>
+        <item>32</item>
+        <item>64</item>
+    </string-array>
+
 </resources>

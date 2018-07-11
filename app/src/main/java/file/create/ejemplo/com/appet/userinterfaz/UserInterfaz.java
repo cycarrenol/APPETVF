@@ -1,5 +1,6 @@
 package file.create.ejemplo.com.appet.userinterfaz;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -11,10 +12,15 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +42,7 @@ import file.create.ejemplo.com.appet.R;
 import file.create.ejemplo.com.appet.dispositivosbt.DispositivosBT;
 import file.create.ejemplo.com.appet.MainActivity;
 
-public class UserInterfaz extends AppCompatActivity {
+public class UserInterfaz extends AppCompatActivity  {
 
 
    private String dato = "";
@@ -50,13 +56,14 @@ public class UserInterfaz extends AppCompatActivity {
 
     int contadorSeparacion = 0;
     int permitirIterar = 0;
-    Button BatrasDispositivos;
-    Button BguardarTXT;
-    Button BiniciarEnvioRecepcion;
+    ImageButton BatrasDispositivos;
+    ImageButton BguardarTXT;
+    ImageButton BiniciarEnvioRecepcion;
 
 
-     Button BenviarSepNumele;
-    Button BidDesconectar;
+     ImageButton BenviarSepNumele;
+    ImageButton BidDesconectar;
+
 
 
     EditText ETSeparacion;
@@ -84,26 +91,19 @@ public class UserInterfaz extends AppCompatActivity {
         setContentView(R.layout.activity_user_interfaz);
 
 
-        BatrasDispositivos = findViewById(R.id.BatrasDispositivos);
 
-        BatrasDispositivos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openActivity2();
-            }
-        });
 
 
         //------------------------------------------------------------------------------------------
 
-        BenviarSepNumele = (Button) findViewById(file.create.ejemplo.com.appet.R.id.BenviarSepNumele);
-        BidDesconectar = (Button) findViewById(file.create.ejemplo.com.appet.R.id.BidDesconectar);
-        BiniciarEnvioRecepcion = (Button) findViewById(R.id.BiniciarEnvioRecepcion);
-        BguardarTXT = (Button) findViewById(R.id.BguardarTXT);
+        BenviarSepNumele = (ImageButton) findViewById(file.create.ejemplo.com.appet.R.id.BenviarSepNumele);
+        BidDesconectar = (ImageButton) findViewById(file.create.ejemplo.com.appet.R.id.BidDesconectar);
+        BiniciarEnvioRecepcion = (ImageButton) findViewById(R.id.BiniciarEnvioRecepcion);
+        BatrasDispositivos = (ImageButton) findViewById(R.id.BatrasDispositivos);
+        BguardarTXT = (ImageButton) findViewById(R.id.BguardarTXT);
         ETSeparacion = (EditText) findViewById(file.create.ejemplo.com.appet.R.id.ETSeparacion);
         ETnumele = (EditText) findViewById(file.create.ejemplo.com.appet.R.id.ETnumele);
         TVresistividades = (TextView) findViewById(R.id.TVresistividades);
-
 
         //------------------------------------------------------------------------------------------
 
@@ -120,8 +120,7 @@ public class UserInterfaz extends AppCompatActivity {
 
                 //String archivo ="Miarchivo.txt";
 
-                BguardarTXT.setBackgroundColor(Color.YELLOW);
-                BguardarTXT.setTextColor(Color.BLACK);
+                BguardarTXT.setBackgroundColor(Color.GRAY);
 
                 FileOutputStream fileOutputStream = null;
 
@@ -145,7 +144,7 @@ public class UserInterfaz extends AppCompatActivity {
                 try {
 
                     FileOutputStream os = fileOutputStream = new FileOutputStream(file);
-                    String data = "Texto inicial por defecto";
+                    String data = TVresistividades.getText().toString();
                     TVresistividades.setText(TVresistividades.getText());
                     os.write(data.getBytes());
                     os.close();
@@ -172,14 +171,12 @@ public class UserInterfaz extends AppCompatActivity {
 
                         if (dataInPrint.equals(ETSeparacion.getText().toString())) {
 
-                            BenviarSepNumele.setBackgroundColor(Color.GREEN);
-                            BenviarSepNumele.setText("OK");
+                            BenviarSepNumele.setBackgroundColor(Color.rgb(255, 191, 0));
 
                         }
 
 
-
-                        if (permitirIterar == 1) {
+                        if (permitirIterar >= 1) {
 
 
                             aleatorioString = dataInPrint;
@@ -214,11 +211,11 @@ public class UserInterfaz extends AppCompatActivity {
                     ETSeparacion.setHintTextColor(Color.RED);
 
 
-                }else if(datoEnvioNumele.matches("")){
+                } else if (datoEnvioNumele.matches("")) {
 
                     ETnumele.setHint("Ingrese un numero");
                     ETnumele.setHintTextColor(Color.RED);
-                }else {
+                } else {
                     contadorSeparacion += 1;
                     datoEnvioSeparacion = datoEnvioSeparacion + "#";
                     MyConexionBT.write(datoEnvioSeparacion);
@@ -230,6 +227,7 @@ public class UserInterfaz extends AppCompatActivity {
 
 
         mHandler = new Handler();
+
 
         BiniciarEnvioRecepcion.setOnClickListener(new View.OnClickListener() {// APAGAR LED
             public void onClick(View v) {
@@ -262,18 +260,22 @@ public class UserInterfaz extends AppCompatActivity {
 
         BidDesconectar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (btSocket != null) {
-                    try {
-                        btSocket.close();
-                    } catch (IOException e) {
-                        Toast.makeText(getBaseContext(), "Error", Toast.LENGTH_SHORT).show();
-                        ;
-                    }
-                }
+                 Intent intent = new Intent(Intent.ACTION_MAIN);
+                 intent.addCategory(Intent.CATEGORY_HOME);
+                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                 startActivity(intent);
+
+            }
+
+        });
+
+
+        BatrasDispositivos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 finish();
             }
         });
-
 
     }
 
@@ -335,6 +337,8 @@ public class UserInterfaz extends AppCompatActivity {
         }
     }
 
+
+
     //Crea la clase que permite crear el evento de conexion
     private class ConnectedThread extends Thread {
         private final InputStream mmInStream;
@@ -375,7 +379,7 @@ public class UserInterfaz extends AppCompatActivity {
                 mmOutStream.write(input.getBytes());
             } catch (IOException e) {
                 //si no es posible enviar datos se cierra la conexión
-                Toast.makeText(getBaseContext(), "La Conexión fallo", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getBaseContext(), "", Toast.LENGTH_SHORT).show();
                 finish();
             }
         }
@@ -394,7 +398,7 @@ public class UserInterfaz extends AppCompatActivity {
             TVresistividades.append(String.valueOf(aleatorioString));
             TVresistividades.append("\n"); // for new line
 
-        }
+         }
 
          // Schedule the task to do again after an interval
         mHandler.postDelayed(mRunnable, mInterval);
@@ -405,6 +409,8 @@ public class UserInterfaz extends AppCompatActivity {
                 public final void removeCallbacks (Runnable r)
                     Remove any pending posts of Runnable r that are in the message queue.
             */
+
+
             mHandler.removeCallbacks(mRunnable);
         }
     }
@@ -412,6 +418,11 @@ public class UserInterfaz extends AppCompatActivity {
 
     public void openActivity2() {
         Intent intent = new Intent(this, DispositivosBT.class);
+        startActivity(intent);
+    }
+
+    public void openActivity3() {
+        Intent intent = new Intent(this, UserInterfaz.class);
         startActivity(intent);
     }
 
