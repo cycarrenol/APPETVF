@@ -9,6 +9,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -58,6 +59,7 @@ public class DispositivosBT extends AppCompatActivity {
             }
         });
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
     }
 
@@ -93,8 +95,10 @@ public class DispositivosBT extends AppCompatActivity {
         {
 
             for (BluetoothDevice device : pairedDevices) { //EN CASO DE ERROR LEER LA ANTERIOR EXPLICACION
-                mPairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
-            }
+               if(device.getName().equals("H-C-2010-06-01"    )) {// ==> AQUI SE CONDICIONA  A QUE SOLO SE PRESENTE LA RED ESCOGIDA
+                   mPairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+                        }
+               }
         }
     }
 
@@ -103,6 +107,8 @@ public class DispositivosBT extends AppCompatActivity {
         public void onItemClick(AdapterView av, View v, int arg2, long arg3) {
 
             // Obtener la dirección MAC del dispositivo, que son los últimos 17 caracteres en la vista
+
+
             String info = ((TextView) v).getText().toString();
             String address = info.substring(info.length() - 17);
 

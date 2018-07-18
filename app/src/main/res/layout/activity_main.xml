@@ -35,17 +35,16 @@
         />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/BabrirArchivos"
         android:layout_width="wrap_content"
         android:layout_height="59dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
-        android:text="ABRIR ACHIVOS"
-        tools:layout_editor_absoluteX="129dp"
-        tools:layout_editor_absoluteY="417dp"
         android:background="#808080"
+        android:text="ABRIR ACHIVOS"
         android:textColor="#FFFFFF"
-        />
+        tools:layout_editor_absoluteX="129dp"
+        tools:layout_editor_absoluteY="417dp" />
 
 </RelativeLayout>
