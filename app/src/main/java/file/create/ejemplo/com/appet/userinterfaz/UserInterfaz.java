@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
@@ -14,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,12 +24,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Scroller;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -48,42 +53,35 @@ import file.create.ejemplo.com.appet.MainActivity;
 public class UserInterfaz extends AppCompatActivity  {
 
 
-
     Spinner numeleMySpinnner;
 
-    private int contAuxt =0;
-   private String dato = "";
-   private String[] DatosParte1 = new String[2];
+    private boolean repetirEnvio = true;//U
 
-    private String DatoTwo;
+    private String datoEnvioSeparacionAlterno;//U
+    private String DatoSpinner;//U
+    private String aleatorioString;//U
 
-   private String DatoSpinner;
-   private String aleatorioString;
+    private int ElContador=0;//U
+    private int mCounter;//U
+    private int mInterval = 1000;//U
+    private int mMaxRepeat = 60;//U
+    private int contadorSeparacion = 0;//U
+    private int permitirIterar = 0;//U
 
-    private int mCounter;
-    private Handler mHandler;
-    private int mInterval = 1000;
-    private Runnable mRunnable;
-    private int mMaxRepeat = 60;
-    private boolean repetirEnvio = true;
-    int contadorSeparacion = 0;
-    int permitirIterar = 0;
-    ImageButton BatrasDispositivos;
-    ImageButton BguardarTXT;
-    ImageButton BiniciarEnvioRecepcion;
-    Button botonprueba;
+    private Handler mHandler;//U
+    private Runnable mRunnable;//U
 
+    ImageButton BatrasDispositivos;//U
+    ImageButton BguardarTXT;//U
+    ImageButton BiniciarEnvioRecepcion;//U
+    ImageButton BenviarSepNumele;//U
+    ImageButton BidDesconectar;//U
 
-     ImageButton BenviarSepNumele;
-    ImageButton BidDesconectar;
-
-
-
-    EditText ETSeparacion;
-    EditText ETnumele;
-    TextView TVresistividades;
+    EditText ETSeparacion;//U
+    TextView TVresistividades;//U
 
     //-------------------------------------------
+    //USED
     Handler bluetoothIn;
     final int handlerState = 0;
     private BluetoothAdapter btAdapter = null;
@@ -104,10 +102,7 @@ public class UserInterfaz extends AppCompatActivity  {
         setContentView(R.layout.activity_user_interfaz);
 
 
-
-
-
-        //------------------------------------------------------------------------------------------
+        //------------------------------Enlaza  los elementos del Layout con las variables de UserInterfaz
 
         BenviarSepNumele = (ImageButton) findViewById(file.create.ejemplo.com.appet.R.id.BenviarSepNumele);
         BidDesconectar = (ImageButton) findViewById(file.create.ejemplo.com.appet.R.id.BidDesconectar);
@@ -115,15 +110,18 @@ public class UserInterfaz extends AppCompatActivity  {
         BatrasDispositivos = (ImageButton) findViewById(R.id.BatrasDispositivos);
         BguardarTXT = (ImageButton) findViewById(R.id.BguardarTXT);
         ETSeparacion = (EditText) findViewById(file.create.ejemplo.com.appet.R.id.ETSeparacion);
-        ETnumele = (EditText) findViewById(file.create.ejemplo.com.appet.R.id.ETnumele);
         TVresistividades = (TextView) findViewById(R.id.TVresistividades);
-        botonprueba  = findViewById(R.id.botonprueba);
-        numeleMySpinnner = findViewById(R.id.IDSPINNER);
+         numeleMySpinnner = findViewById(R.id.IDSPINNER);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.ComboNumele,android.R.layout.simple_spinner_item);
 
         numeleMySpinnner.setAdapter(adapter);
-        //------------------------------------------------------------------------------------------
+
+        TVresistividades.setMovementMethod(new ScrollingMovementMethod());
+
+        //------------------------------Enlaza  los elementos del Layout con las variables de UserInterfaz
+
+
 
         ///-----------------------------------------------------------------Metodo para crear el TXT
 
@@ -133,21 +131,18 @@ public class UserInterfaz extends AppCompatActivity  {
 
                 Date c = Calendar.getInstance().getTime();
 
-                SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss(dd-MM-yyyy)");
+                SimpleDateFormat df = new SimpleDateFormat("HH mm ss(dd MM  yyyy)");
                 String archivo = df.format(c) + ".txt";
-
-                //String archivo ="Miarchivo.txt";
 
                 BguardarTXT.setBackgroundColor(Color.GRAY);
 
                 FileOutputStream fileOutputStream = null;
 
-                //File myDirectoty1 =
-                // new File(Environment.getExternalStoragePublicDirectory
-                // (Environment.DIRECTORY_DOWNLOADS),"RESISTIVIDADES");
 
-                File myDirectoty1 = new File(Environment.getExternalStorageDirectory(), "RESISTIVIDADES");
-                myDirectoty1.mkdir();
+                File myDirectoty1 = new File(Environment.getExternalStorageDirectory(), "THERESISTIVITIES");
+
+                  myDirectoty1.mkdir();
+
                 File file = new File(myDirectoty1, archivo);
 
                 Context context = getApplicationContext();
@@ -169,13 +164,12 @@ public class UserInterfaz extends AppCompatActivity  {
                 } catch (Exception e) {// Con exception  se maneja cualquier excepción
                     e.printStackTrace();
                 }
-            }
+            }//FIN ONCLICK
         });
 
         //-----------------------------------------------------------------Fin método para crear TXT
 
-        DatosParte1[0] ="-1";
-        DatosParte1[1] ="1";
+
 
         bluetoothIn = new Handler() {
             public void handleMessage(android.os.Message msg) {
@@ -189,18 +183,27 @@ public class UserInterfaz extends AppCompatActivity  {
                         String dataInPrint = DataStringIN.substring(0, endOfLineIndex);
 
 
-                        if (dataInPrint.equals(ETSeparacion.getText().toString())) {
+                       if (ElContador==0) {
 
-                            BenviarSepNumele.setBackgroundColor(Color.rgb(255, 191, 0));
+                           if (dataInPrint.equals(DatoSpinner)) {
 
+                               contadorSeparacion++;
+                               ElContador++;
+                           }
+                       }
+
+                        if (ElContador ==1){
+                            if (dataInPrint.equals(ETSeparacion.getText().toString())) {
+                                ElContador++;
+
+                                BenviarSepNumele.setBackgroundColor(Color.rgb(255, 191, 0));
+
+                            }
                         }
 
                         if (permitirIterar >= 1) {
 
-
                             aleatorioString = dataInPrint;
-
-
                         }
 
                         DataStringIN.delete(0, DataStringIN.length());
@@ -220,11 +223,11 @@ public class UserInterfaz extends AppCompatActivity  {
             public void onClick(View v)
 
             {
-
                 String datoEnvioSeparacion = ETSeparacion.getText().toString();
                 String datoEnvioNumele =  DatoSpinner;
+                 datoEnvioSeparacionAlterno = datoEnvioSeparacion;
 
-                if (datoEnvioSeparacion.matches("")) {
+                if (datoEnvioSeparacion.matches("") || datoEnvioSeparacion.matches(".")) {
 
                     ETSeparacion.setHint("Ingrese un numero");
                     ETSeparacion.setHintTextColor(Color.RED);
@@ -232,34 +235,32 @@ public class UserInterfaz extends AppCompatActivity  {
 
                 } else if (DatoSpinner.equals("seleccionar")) {
 
+                    numeleMySpinnner.setBackgroundColor(Color.parseColor("#ffcccc"));
 
-                    numeleMySpinnner.setBackgroundColor(Color.RED);
                 } else {
+                    if(contadorSeparacion ==0){
 
-                    numeleMySpinnner.setBackgroundColor(Color.parseColor("#f5f5dc"));
-                    contadorSeparacion += 1;
-                    datoEnvioSeparacion = datoEnvioSeparacion + "#";
-                    MyConexionBT.write(datoEnvioSeparacion);
+                        datoEnvioNumele = datoEnvioNumele+"$";
+                        MyConexionBT.write(datoEnvioNumele);
+                       //TVresistividades.setText(datoEnvioNumele);
+                     }
+                    if(contadorSeparacion == 1 ){
 
-                    if(contadorSeparacion ==2){
-                        DatoSpinner = DatoSpinner+"$";
-                        MyConexionBT.write(datoEnvioSeparacion);
+                        datoEnvioSeparacionAlterno = datoEnvioSeparacionAlterno+"#";
+                        MyConexionBT.write(datoEnvioSeparacionAlterno);
+                        numeleMySpinnner.setBackgroundColor(Color.parseColor("#f5f5dc"));
 
                     }
+
                 }
-
-
             }
         });
-
-
         mHandler = new Handler();
-
 
         BiniciarEnvioRecepcion.setOnClickListener(new View.OnClickListener() {// APAGAR LED
             public void onClick(View v) {
 
-                if (contadorSeparacion >= 2 && repetirEnvio == true ) {
+                if (contadorSeparacion >= 1 && repetirEnvio == true ) {
 
                     BiniciarEnvioRecepcion.setBackgroundColor(Color.rgb(191, 191, 191));
                     repetirEnvio = false;
@@ -275,32 +276,16 @@ public class UserInterfaz extends AppCompatActivity  {
                             doTask();
                         }
                     };
-
-
                     mHandler.postDelayed(mRunnable, (mInterval));
-
                 }
-
-
             }
-
-
         });
-
 
         BidDesconectar.setOnClickListener(new View.OnClickListener() {
+
             public void onClick(View v) {
+
                 openActivity4();
-
-            }
-
-        });
-
-
-        botonprueba.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
 
             }
         });
@@ -310,13 +295,11 @@ public class UserInterfaz extends AppCompatActivity  {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 DatoSpinner = adapterView.getItemAtPosition(i).toString();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
-
 
         BatrasDispositivos.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -328,13 +311,11 @@ public class UserInterfaz extends AppCompatActivity  {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
     }
-
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
         //crea un conexion de salida segura para el dispositivo
         //usando el servicio UUID
         return device.createRfcommSocketToServiceRecord(BTMODULEUUID);
     }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -443,7 +424,7 @@ public class UserInterfaz extends AppCompatActivity  {
 
         //TVresistividades.setText(aleatorioString);
         if(mCounter==1){
-            botonprueba.setText("");
+            TVresistividades.setText("");
         }else{
             TVresistividades.append(String.valueOf(aleatorioString));
             TVresistividades.append("\n"); // for new line

@@ -13,10 +13,8 @@
         android:id="@+id/ETSeparacion"
         android:layout_width="80dp"
         android:layout_height="41dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="111dp"
-        android:layout_marginTop="102dp"
+        android:layout_alignTop="@+id/textView"
+        android:layout_toStartOf="@+id/BidDesconectar"
         android:background="#d3d3d3"
         android:digits="0123456789."
         android:gravity="fill_vertical|center_horizontal"
@@ -30,51 +28,22 @@
         android:textStyle="bold" />
 
 
-    <EditText
-        android:id="@+id/ETnumele"
-        android:layout_width="76dp"
-        android:layout_height="44dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="19dp"
-        android:layout_marginTop="202dp"
-        android:background="#d3d3d3"
-        android:digits="0123456789."
-        android:gravity="fill_vertical|center_horizontal"
-        android:hapticFeedbackEnabled="false"
-        android:hint="ingrese un  numero"
-        android:inputType="numberDecimal"
-        android:textColor="#436827"
-        android:textColorHint="#436827"
-        android:textSize="15sp"
-        android:textStyle="bold" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="175dp"
-        android:layout_height="79dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:adjustViewBounds="true"
-        app:srcCompat="@drawable/junglelogojpg" />
 
 
     <TextView
         android:id="@+id/TVresistividades"
-        android:layout_width="322dp"
-        android:layout_height="157dp"
+        android:layout_width="275dp"
+        android:layout_height="147dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="79dp"
+        android:layout_marginBottom="104dp"
         android:background="#E9E9E9"
         android:fontFamily="monospace"
         android:text="No hay entradas de resistividad"
         android:textColor="#000000"
-        android:lines="60"
-        android:minLines="60"
-        android:singleLine="false"
-         />
+
+
+        />
 
 
     <TextView
@@ -83,9 +52,9 @@
         android:layout_height="wrap_content"
 
 
-        android:layout_alignBottom="@+id/ETSeparacion"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="67dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_marginTop="90dp"
         android:gravity="fill_vertical|center_horizontal"
         android:text="Separacion de electrodos"
         android:textColor="#000000" />
@@ -94,9 +63,8 @@
         android:id="@+id/textView2"
         android:layout_width="102dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/ETnumele"
         android:layout_alignStart="@+id/TVresistividades"
-        android:layout_marginBottom="-202dp"
+        android:layout_alignTop="@+id/IDSPINNER"
         android:gravity="center_horizontal"
         android:text="Numero de electrodos"
         android:textColor="#000000" />
@@ -105,11 +73,11 @@
         android:id="@+id/BiniciarEnvioRecepcion"
         android:layout_width="68dp"
         android:layout_height="57dp"
-        android:layout_alignParentBottom="true"
 
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="244dp"
-        android:layout_marginStart="54dp"
+        android:layout_below="@+id/TVresistividades"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="-79dp"
         android:background=" #436827"
         app:srcCompat="@android:drawable/ic_media_play" />
 
@@ -117,10 +85,8 @@
         android:id="@+id/BidDesconectar"
         android:layout_width="53dp"
         android:layout_height="48dp"
-        android:layout_alignEnd="@+id/TVresistividades"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="19dp"
-        android:layout_marginEnd="-2dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/imageView"
         android:background="#ff6666"
         app:srcCompat="@android:drawable/ic_menu_help" />
 
@@ -128,8 +94,8 @@
         android:id="@+id/BguardarTXT"
         android:layout_width="61dp"
         android:layout_height="51dp"
-        android:layout_alignStart="@+id/TVresistividades"
-        android:layout_alignTop="@+id/BidDesconectar"
+        android:layout_alignBottom="@+id/BiniciarEnvioRecepcion"
+        android:layout_centerHorizontal="true"
         android:background="#7EC0EE"
         app:srcCompat="@android:drawable/ic_menu_save" />
 
@@ -137,9 +103,8 @@
         android:id="@+id/BatrasDispositivos"
         android:layout_width="61dp"
         android:layout_height="56dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/BiniciarEnvioRecepcion"
-        android:layout_marginEnd="64dp"
+        android:layout_alignTop="@+id/BguardarTXT"
+        android:layout_toEndOf="@+id/imageView"
         android:background="#bf7fbf"
         app:srcCompat="@android:drawable/ic_menu_rotate" />
 
@@ -147,27 +112,19 @@
         android:id="@+id/BenviarSepNumele"
         android:layout_width="63dp"
         android:layout_height="52dp"
-        android:layout_above="@+id/BiniciarEnvioRecepcion"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/textView2"
+        android:layout_marginEnd="145dp"
         android:background="#BFBFBF"
         app:srcCompat="@android:drawable/ic_menu_send" />
 
-    <Button
-        android:id="@+id/botonprueba"
-        android:layout_width="58dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/TVresistividades"
-        android:layout_centerHorizontal="true"
-        android:text="Button" />
-
     <Spinner
         android:id="@+id/IDSPINNER"
-        android:layout_width="wrap_content"
+        android:layout_width="135dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_marginEnd="132dp"
-        android:layout_marginTop="170dp"></Spinner>
+        android:layout_marginTop="144dp"></Spinner>
 
 
 

@@ -2,10 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="file.create.ejemplo.com.appet">
 
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
 
@@ -18,7 +19,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
+            <intent-filter><!-- Esto lanza el icono. Antes habian dos de estos y se creaba otro icono-->
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -27,11 +28,6 @@
         <activity android:name=".dispositivosbt.DispositivosBT" />
         <activity android:name=".userinterfaz.UserInterfaz"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".Help"></activity>
     </application>

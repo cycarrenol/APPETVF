@@ -59,6 +59,8 @@ public class DispositivosBT extends AppCompatActivity {
             }
         });
 
+
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
     }
@@ -95,9 +97,9 @@ public class DispositivosBT extends AppCompatActivity {
         {
 
             for (BluetoothDevice device : pairedDevices) { //EN CASO DE ERROR LEER LA ANTERIOR EXPLICACION
-               if(device.getName().equals("H-C-2010-06-01"    )) {// ==> AQUI SE CONDICIONA  A QUE SOLO SE PRESENTE LA RED ESCOGIDA
+               if(device.getName().equals("H-C-2010-06-01")) {// ==> AQUI SE CONDICIONA  A QUE SOLO SE PRESENTE LA RED ESCOGIDA
                    mPairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
-                        }
+                   }
                }
         }
     }
