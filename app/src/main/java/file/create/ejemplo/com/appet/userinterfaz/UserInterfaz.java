@@ -75,7 +75,7 @@ public class UserInterfaz extends AppCompatActivity  {
     ImageButton BguardarTXT;//U
     ImageButton BiniciarEnvioRecepcion;//U
     ImageButton BenviarSepNumele;//U
-    ImageButton BidDesconectar;//U
+    ImageButton BAyuda;//U
 
     EditText ETSeparacion;//U
     TextView TVresistividades;//U
@@ -105,7 +105,7 @@ public class UserInterfaz extends AppCompatActivity  {
         //------------------------------Enlaza  los elementos del Layout con las variables de UserInterfaz
 
         BenviarSepNumele = (ImageButton) findViewById(file.create.ejemplo.com.appet.R.id.BenviarSepNumele);
-        BidDesconectar = (ImageButton) findViewById(file.create.ejemplo.com.appet.R.id.BidDesconectar);
+        BAyuda = (ImageButton) findViewById(R.id.BAyuda);
         BiniciarEnvioRecepcion = (ImageButton) findViewById(R.id.BiniciarEnvioRecepcion);
         BatrasDispositivos = (ImageButton) findViewById(R.id.BatrasDispositivos);
         BguardarTXT = (ImageButton) findViewById(R.id.BguardarTXT);
@@ -197,7 +197,7 @@ public class UserInterfaz extends AppCompatActivity  {
                                 ElContador++;
 
                                 BenviarSepNumele.setBackgroundColor(Color.rgb(255, 191, 0));
-
+                                ETSeparacion.setTextColor(Color.BLACK);
                             }
                         }
 
@@ -227,10 +227,12 @@ public class UserInterfaz extends AppCompatActivity  {
                 String datoEnvioNumele =  DatoSpinner;
                  datoEnvioSeparacionAlterno = datoEnvioSeparacion;
 
-                if (datoEnvioSeparacion.matches("") || datoEnvioSeparacion.matches(".")) {
+                if (datoEnvioSeparacion.matches("") || ETSeparacion.getText().toString().equals(".")) {
 
+                    ETSeparacion.setText("");
                     ETSeparacion.setHint("Ingrese un numero");
                     ETSeparacion.setHintTextColor(Color.RED);
+                    ETSeparacion.setTextColor(Color.RED);
 
 
                 } else if (DatoSpinner.equals("seleccionar")) {
@@ -240,7 +242,7 @@ public class UserInterfaz extends AppCompatActivity  {
                 } else {
                     if(contadorSeparacion ==0){
 
-                        datoEnvioNumele = datoEnvioNumele+"$";
+                        datoEnvioNumele =  datoEnvioNumele+"$";
                         MyConexionBT.write(datoEnvioNumele);
                        //TVresistividades.setText(datoEnvioNumele);
                      }
@@ -263,7 +265,8 @@ public class UserInterfaz extends AppCompatActivity  {
                 if (contadorSeparacion >= 1 && repetirEnvio == true ) {
 
                     BiniciarEnvioRecepcion.setBackgroundColor(Color.rgb(191, 191, 191));
-                    repetirEnvio = false;
+
+                     repetirEnvio = false;
 
                     permitirIterar = permitirIterar + 1;
                     mCounter = 0;
@@ -281,7 +284,7 @@ public class UserInterfaz extends AppCompatActivity  {
             }
         });
 
-        BidDesconectar.setOnClickListener(new View.OnClickListener() {
+        BAyuda.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
 

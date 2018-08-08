@@ -5,16 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".userinterfaz.UserInterfaz"
-    android:background="#f5f5dc"
-    >
+    android:background="#f5f5dc">
 
 
     <EditText
         android:id="@+id/ETSeparacion"
-        android:layout_width="80dp"
-        android:layout_height="41dp"
-        android:layout_alignTop="@+id/textView"
-        android:layout_toStartOf="@+id/BidDesconectar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="#d3d3d3"
         android:digits="0123456789."
         android:gravity="fill_vertical|center_horizontal"
@@ -25,107 +22,136 @@
         android:textColor="#436827"
         android:textColorHint="#436827"
         android:textSize="15sp"
-        android:textStyle="bold" />
-
-
-
-
-    <TextView
-        android:id="@+id/TVresistividades"
-        android:layout_width="275dp"
-        android:layout_height="147dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="104dp"
-        android:background="#E9E9E9"
-        android:fontFamily="monospace"
-        android:text="No hay entradas de resistividad"
-        android:textColor="#000000"
-
-
+        android:textStyle="bold"
+        android:layout_below="@+id/imagenarbol"
+        android:layout_toRightOf="@+id/TVseparacion"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
         />
 
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="101dp"
+        android:id="@+id/TVresistividades"
+        android:layout_width="350dp"
+        android:layout_height="198dp"
+        android:layout_below="@+id/BenviarSepNumele"
+        android:layout_marginTop="22dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="#E9E9E9"
+        android:fontFamily="monospace"
+        android:text="No hay entradas de resistividad"
+        android:textColor="#000000" />
+
+
+    <TextView
+        android:id="@+id/TVseparacion"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/textView2"
-        android:layout_marginTop="90dp"
+        android:layout_below="@+id/imagenarbol"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
         android:gravity="fill_vertical|center_horizontal"
         android:text="Separacion de electrodos"
         android:textColor="#000000" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="102dp"
+        android:id="@+id/TVnumEletrodos"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/TVresistividades"
-        android:layout_alignTop="@+id/IDSPINNER"
+        android:layout_below="@+id/TVseparacion"
         android:gravity="center_horizontal"
         android:text="Numero de electrodos"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+
+        />
 
     <ImageButton
         android:id="@+id/BiniciarEnvioRecepcion"
-        android:layout_width="68dp"
-        android:layout_height="57dp"
-
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/TVresistividades"
-        android:layout_marginStart="65dp"
-        android:layout_marginTop="-79dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background=" #436827"
-        app:srcCompat="@android:drawable/ic_media_play" />
+        app:srcCompat="@android:drawable/ic_media_play"
+        android:layout_toRightOf="@+id/BatrasDispositivos"
+        android:layout_below="@id/TVresistividades"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="90dp"
+        android:layout_marginRight="130dp"
+        android:layout_marginBottom="10dp"
+        />
 
     <ImageButton
-        android:id="@+id/BidDesconectar"
-        android:layout_width="53dp"
-        android:layout_height="48dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/imageView"
+        android:id="@+id/BAyuda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:background="#ff6666"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
         app:srcCompat="@android:drawable/ic_menu_help" />
 
     <ImageButton
         android:id="@+id/BguardarTXT"
-        android:layout_width="61dp"
-        android:layout_height="51dp"
-        android:layout_alignBottom="@+id/BiniciarEnvioRecepcion"
-        android:layout_centerHorizontal="true"
-        android:background="#7EC0EE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/TVresistividades"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="10dp"
+         android:layout_alignParentRight="true"
+         android:background="#7EC0EE"
         app:srcCompat="@android:drawable/ic_menu_save" />
 
     <ImageButton
         android:id="@+id/BatrasDispositivos"
-        android:layout_width="61dp"
-        android:layout_height="56dp"
-        android:layout_alignTop="@+id/BguardarTXT"
-        android:layout_toEndOf="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TVresistividades"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:background="#bf7fbf"
         app:srcCompat="@android:drawable/ic_menu_rotate" />
 
     <ImageButton
         android:id="@+id/BenviarSepNumele"
-        android:layout_width="63dp"
-        android:layout_height="52dp"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/textView2"
-        android:layout_marginEnd="145dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TVnumEletrodos"
+        android:layout_marginLeft="147dp"
+        android:layout_marginRight="187dp"
+        android:layout_marginTop="60dp"
         android:background="#BFBFBF"
         app:srcCompat="@android:drawable/ic_menu_send" />
 
     <Spinner
-        android:id="@+id/IDSPINNER"
-        android:layout_width="135dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="144dp"></Spinner>
 
+        android:id="@+id/IDSPINNER"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ETSeparacion"
+        android:layout_toRightOf="@+id/TVnumEletrodos"
+        android:padding="3dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        >
+
+
+    </Spinner>
+
+    <ImageView
+        android:id="@+id/imagenarbol"
+        android:layout_width="225dp"
+        android:layout_height="78dp"
+        app:srcCompat="@drawable/appetlogo"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="85dp"
+        android:layout_marginRight="85dp"
+        />
 
 
 </RelativeLayout>
