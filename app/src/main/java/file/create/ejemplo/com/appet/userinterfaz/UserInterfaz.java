@@ -61,6 +61,8 @@ public class UserInterfaz extends AppCompatActivity  {
     private String DatoSpinner;//U
     private String aleatorioString;//U
 
+
+
     private int ElContador=0;//U
     private int mCounter;//U
     private int mInterval = 1000;//U
@@ -76,9 +78,11 @@ public class UserInterfaz extends AppCompatActivity  {
     ImageButton BiniciarEnvioRecepcion;//U
     ImageButton BenviarSepNumele;//U
     ImageButton BAyuda;//U
-
+    ImageButton IBcheckSep;
+    ImageButton IBcheckNumele;
     EditText ETSeparacion;//U
     TextView TVresistividades;//U
+    TextView TVAvanceResistividades;
 
     //-------------------------------------------
     //USED
@@ -109,10 +113,12 @@ public class UserInterfaz extends AppCompatActivity  {
         BiniciarEnvioRecepcion = (ImageButton) findViewById(R.id.BiniciarEnvioRecepcion);
         BatrasDispositivos = (ImageButton) findViewById(R.id.BatrasDispositivos);
         BguardarTXT = (ImageButton) findViewById(R.id.BguardarTXT);
+        IBcheckSep = findViewById(R.id.IBcheckSep);
+        IBcheckNumele = findViewById(R.id.IBcheckNumele);
         ETSeparacion = (EditText) findViewById(file.create.ejemplo.com.appet.R.id.ETSeparacion);
         TVresistividades = (TextView) findViewById(R.id.TVresistividades);
          numeleMySpinnner = findViewById(R.id.IDSPINNER);
-
+        TVAvanceResistividades = findViewById(R.id.TVAvanceResistividades);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.ComboNumele,android.R.layout.simple_spinner_item);
 
         numeleMySpinnner.setAdapter(adapter);
@@ -183,23 +189,27 @@ public class UserInterfaz extends AppCompatActivity  {
                         String dataInPrint = DataStringIN.substring(0, endOfLineIndex);
 
 
-                       if (ElContador==0) {
+                        if (ElContador ==0){
+                            if (dataInPrint.equals(ETSeparacion.getText().toString())) {
+                                IBcheckSep.setVisibility(View.VISIBLE);
+                                ElContador++;
+                                contadorSeparacion++;
+                            }
+                        }
+
+                       if (ElContador==1) {
 
                            if (dataInPrint.equals(DatoSpinner)) {
 
-                               contadorSeparacion++;
+                               IBcheckNumele.setVisibility(View.VISIBLE);
                                ElContador++;
+                               BenviarSepNumele.setBackgroundColor(Color.rgb(255, 191, 0));
+                               ETSeparacion.setTextColor(Color.BLACK);
+
                            }
                        }
 
-                        if (ElContador ==1){
-                            if (dataInPrint.equals(ETSeparacion.getText().toString())) {
-                                ElContador++;
 
-                                BenviarSepNumele.setBackgroundColor(Color.rgb(255, 191, 0));
-                                ETSeparacion.setTextColor(Color.BLACK);
-                            }
-                        }
 
                         if (permitirIterar >= 1) {
 
@@ -225,14 +235,33 @@ public class UserInterfaz extends AppCompatActivity  {
             {
                 String datoEnvioSeparacion = ETSeparacion.getText().toString();
                 String datoEnvioNumele =  DatoSpinner;
+
+                if(datoEnvioNumele.equals("8")){
+
+                    mMaxRepeat = 8;
+
+                    }else if(datoEnvioNumele.equals("16")){
+
+                    mMaxRepeat = 36;
+
+                }else if(datoEnvioNumele.equals("32")){
+
+                    mMaxRepeat = 156;
+
+                }else if(datoEnvioNumele.equals("48")){
+
+                    mMaxRepeat = 361;
+
+                }
+
                  datoEnvioSeparacionAlterno = datoEnvioSeparacion;
 
                 if (datoEnvioSeparacion.matches("") || ETSeparacion.getText().toString().equals(".")) {
 
                     ETSeparacion.setText("");
-                    ETSeparacion.setHint("Ingrese un numero");
+                    ETSeparacion.setHint("Ingresar");
                     ETSeparacion.setHintTextColor(Color.RED);
-                    ETSeparacion.setTextColor(Color.RED);
+                    ETSeparacion.setTextColor(Color.BLACK);
 
 
                 } else if (DatoSpinner.equals("seleccionar")) {
@@ -241,16 +270,13 @@ public class UserInterfaz extends AppCompatActivity  {
 
                 } else {
                     if(contadorSeparacion ==0){
-
-                        datoEnvioNumele =  datoEnvioNumele+"$";
-                        MyConexionBT.write(datoEnvioNumele);
-                       //TVresistividades.setText(datoEnvioNumele);
-                     }
-                    if(contadorSeparacion == 1 ){
-
                         datoEnvioSeparacionAlterno = datoEnvioSeparacionAlterno+"#";
                         MyConexionBT.write(datoEnvioSeparacionAlterno);
                         numeleMySpinnner.setBackgroundColor(Color.parseColor("#f5f5dc"));
+                    }
+                    if(contadorSeparacion == 1 ){
+                        datoEnvioNumele =  datoEnvioNumele+"$";
+                        MyConexionBT.write(datoEnvioNumele);
 
                     }
 
@@ -412,8 +438,17 @@ public class UserInterfaz extends AppCompatActivity  {
             try {
                 mmOutStream.write(input.getBytes());
             } catch (IOException e) {
-                //si no es posible enviar datos se cierra la conexión
-                //Toast.makeText(getBaseContext(), "", Toast.LENGTH_SHORT).show();
+
+                Context context = getApplicationContext();
+
+
+
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(context, "CONEXIÓN FALLIDA", duration);
+                toast.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);// CHANGE POSITION OF TOAST
+                toast.show();
+
+                finish();
                 finish();
             }
         }
@@ -431,7 +466,7 @@ public class UserInterfaz extends AppCompatActivity  {
         }else{
             TVresistividades.append(String.valueOf(aleatorioString));
             TVresistividades.append("\n"); // for new line
-
+            TVAvanceResistividades.setText(mCounter-1+" de "+(mMaxRepeat-1));
          }
 
          // Schedule the task to do again after an interval
