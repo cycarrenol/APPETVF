@@ -145,7 +145,7 @@ public class UserInterfaz extends AppCompatActivity  {
                 FileOutputStream fileOutputStream = null;
 
 
-                File myDirectoty1 = new File(Environment.getExternalStorageDirectory(), "THERESISTIVITIES");
+                File myDirectoty1 = new File(Environment.getExternalStorageDirectory(), "RESISTIVIDADESAPPET");
 
                   myDirectoty1.mkdir();
 
@@ -440,15 +440,6 @@ public class UserInterfaz extends AppCompatActivity  {
             } catch (IOException e) {
 
                 Context context = getApplicationContext();
-
-
-
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(context, "CONEXIÓN FALLIDA", duration);
-                toast.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);// CHANGE POSITION OF TOAST
-                toast.show();
-
-                finish();
                 finish();
             }
         }

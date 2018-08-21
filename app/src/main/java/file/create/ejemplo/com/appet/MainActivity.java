@@ -31,7 +31,6 @@ import file.create.ejemplo.com.appet.dispositivosbt.DispositivosBT;
 public class MainActivity extends AppCompatActivity {
 
     private Button BconectarBT;
-    private Button BabrirArchivos;
 
     private static final int REQUEST_WRITE_PERMISSION = 786;//  Variable para solicitar permisos en versiones >  a 6.0
 
@@ -48,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         BconectarBT = findViewById(R.id.BconectarBT);
-        BabrirArchivos = findViewById(R.id.BabrirArchivos);
 
         BconectarBT.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,18 +55,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        BabrirArchivos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath()
-                        + "/Android/");
-                intent.setDataAndType(uri, "text/csv");
-                startActivity(Intent.createChooser(intent, "Open folder"));
-
-            }
-        });
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
